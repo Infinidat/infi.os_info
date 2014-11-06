@@ -5,10 +5,10 @@ def uname():
 
 def git_version():
     from . import get_version_from_git
-    print get_version_from_git()
+    print get_version_from_git().lstrip('v.')
 
 
 def git_short_version():
     from . import get_version_from_git, shorten_version_string
-    print shorten_version_string(get_version_from_git())
+    print shorten_version_string(get_version_from_git().lstrip('v.'))
 
