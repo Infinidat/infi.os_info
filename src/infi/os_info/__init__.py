@@ -81,7 +81,7 @@ def get_version_from_file(filepath):
 def shorten_version_string(version_string):
     from pkg_resources import parse_version
     version_numbers = []
-    parsed_version = list(parse_version(version_string))
+    parsed_version = parse_version(version_string).public.split('.')
     for item in parsed_version:
         if not item.isdigit():
             break
