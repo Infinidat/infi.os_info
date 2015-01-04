@@ -45,6 +45,7 @@ def get_version_from_git():
         all_tags = set(tag.name for tag in commit.repo.getTags())
         if returned not in all_tags:
             returned = "{0}.post{1}.{2}".format(*returned.rsplit("-", 2))
+        returned = returned.replace('.g', '+g')
         return returned
 
     def extract_version_tag_from_git():
@@ -80,8 +81,9 @@ def get_version_from_file(filepath):
 
 def shorten_version_string(version_string):
     from pkg_resources import parse_version
+    from re import split
     version_numbers = []
-    parsed_version = list(parse_version(version_string))
+    parsed_version = split("[.\-\+]", parse_version(version_string).public)
     for item in parsed_version:
         if not item.isdigit():
             break
