@@ -45,6 +45,7 @@ def get_version_from_git():
         all_tags = set(tag.name for tag in commit.repo.getTags())
         if returned not in all_tags:
             returned = "{0}.post{1}.{2}".format(*returned.rsplit("-", 2))
+        returned = returned.replace('.g', '+g')
         return returned
 
     def extract_version_tag_from_git():
