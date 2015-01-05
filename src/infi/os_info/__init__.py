@@ -83,7 +83,10 @@ def shorten_version_string(version_string):
     from pkg_resources import parse_version
     from re import split
     version_numbers = []
-    parsed_version = split("[.\-\+]", parse_version(version_string).public)
+    parsed_version = parse_version(version_string)
+    # compatible with setuptools<8 and setuptools>=8
+    parsed_version = list(parsed_version) if isinstance(parsed_version, tuple) else \
+                     split("[.\-\+]", parse_version(version_string).public)
     for item in parsed_version:
         if not item.isdigit():
             break
