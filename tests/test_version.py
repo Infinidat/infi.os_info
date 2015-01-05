@@ -11,3 +11,8 @@ def test_file():
     shorten_version_string(get_version_from_file(filepath))
 
 
+def test_shortening():
+    assert shorten_version_string("1.2.3") == "1.2.3"
+    assert shorten_version_string("1.2.3.post1.g1234567") == "1.2.3.1"
+    assert shorten_version_string("1.2.3.post1+g1234567") == "1.2.3.1"
+    assert shorten_version_string("1.2.2.post1+g1234567") == "1.2.2.1"

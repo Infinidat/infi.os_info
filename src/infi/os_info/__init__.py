@@ -81,21 +81,18 @@ def get_version_from_file(filepath):
 
 
 def shorten_version_string(version_string):
-    from pkg_resources import parse_version
+    from .parse_version import parse_version
     from re import split
     version_numbers = []
-    parsed_version = parse_version(version_string)
-    # compatible with setuptools<8 and setuptools>=8
-    parsed_version = list(parsed_version) if isinstance(parsed_version, tuple) else \
-                     split("[.\-\+]", parse_version(version_string).public)
+    parsed_version = list(parse_version(version_string))
     for item in parsed_version:
         if not item.isdigit():
             break
         version_numbers.append(int(item))
+    last_index = len(version_numbers)
     while len(version_numbers) < 3:
         version_numbers.append(0)
-    index = parsed_version.index(item)
-    for item in parsed_version[index:]:
+    for item in parsed_version[last_index:]:
         if item.isdigit():
             version_numbers.append(int(item))
             break
