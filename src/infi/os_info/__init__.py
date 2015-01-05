@@ -29,7 +29,7 @@ def get_platform_string(platform_module=platform):
     if system == 'sunos':
         arch = 'sparc' if platform_module.processor() == 'sparc' else \
                ('x86' if '32bit' in platform_module.architecture() else 'x64')
-        return "-".join(['solaris', platform_module.release(), arch])
+        return "-".join(['solaris', platform_module.uname()[3], arch])
     return ''
 
 
