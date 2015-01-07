@@ -45,8 +45,8 @@ def get_version_from_git():
             returned = commit.repo._executeGitCommandAssertSuccess(cmd.replace('*', '\*')).stdout.read().strip()
         all_tags = set(tag.name for tag in commit.repo.getTags())
         if returned not in all_tags:
-            returned = "{0}.post{1}.{2}".format(*returned.rsplit("-", 2))
-        returned = returned.replace('.g', '+g')
+            last_tagged_version, number_of_commits_after_tag, commit_hash = returned.rsplit("-", 2)
+            returned = "{0}.post{1}".format(next_trivial_version(last_tagged_version), number_of_commits_after_tag)
         return returned
 
     def extract_version_tag_from_git():
