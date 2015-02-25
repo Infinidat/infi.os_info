@@ -31,6 +31,10 @@ def get_platform_string(platform_module=platform):
                ('x86' if '32bit' in platform_module.architecture() else 'x64')
         version = platform_module.uname()[3].split('.')[0]
         return "-".join(['solaris', version, arch])
+    if system == "aix":
+        uname = platform_module.uname()
+        # example of uname: ('AIX', 'aixio002', '1', '7', '0001A8CAD300', 'powerpc')
+        return "{0}-{1[3]}.{1[2]}-{1[5]}".format(system, uname)
     return ''
 
 
