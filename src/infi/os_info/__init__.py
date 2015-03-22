@@ -29,7 +29,10 @@ def get_platform_string(platform_module=platform):
     if system == 'sunos':
         arch = 'sparc' if platform_module.processor() == 'sparc' else \
                ('x86' if '32bit' in platform_module.architecture() else 'x64')
-        version = platform_module.uname()[3].split('.')[0]
+        # >>> platform.uname()
+        # ('SunOS', 'host-ci17', '5.11', '11.2', 'i86pc', 'i386')
+        # ('SunOS', 'host-ci19', '5.10', 'Generic_147148-26', 'i86pc', 'i386')
+        version = platform_module.uname()[2].split('.')[-1]
         return "-".join(['solaris', version, arch])
     if system == "aix":
         uname = platform_module.uname()
