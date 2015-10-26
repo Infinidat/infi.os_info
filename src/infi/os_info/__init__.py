@@ -83,7 +83,7 @@ def get_version_from_git():
 
 def get_version_from_file(filepath):
     with open(filepath) as fd:
-        exec fd.read()
+        exec(fd.read())
     return locals()['__version__']
 
 
