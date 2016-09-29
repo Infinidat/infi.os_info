@@ -16,7 +16,9 @@ def get_platform_string(platform_module=platform):
             dist_version = version.split('.')[0]
         else:
             dist_version = version.split('.')[0]
-        arch = 'x86' if '32bit' in platform_module.architecture() else 'x64'
+        processor = platform_module.processor()
+        arch = processor if 'ppc' in processor else \
+               ('x86' if '32bit' in platform_module.architecture() else 'x64')
         return "-".join([system, dist_name, dist_version , arch])
     if system == 'windows':
         arch = 'x86' if '32bit' in platform_module.architecture() else 'x64'
