@@ -7,7 +7,11 @@ def get_platform_string(platform_module=platform):
     """:param platform_module: a platform-like module that implements system, architecture, processor, release, mac_ver, linux_distribution"""
     system = platform_module.system().lower().replace('-', '').replace('_', '')
     if system == 'linux':
-        dist_long, version, version_id = platform_module.linux_distribution()
+        try:
+            dist_long, version, version_id = platform_module.linux_distribution()
+        except:
+            # python-2.4 on oracle-5 does not have platform.linux_distribution
+            dist_long, version, version_id = platform_module.dist()
         # We remove the linux string for centos (so it won't be centoslinux)
         dist_name = ''.join(dist_long.split(' ')[:2]).lower().replace('linux','')
         if dist_name == 'ubuntu':
@@ -16,7 +20,9 @@ def get_platform_string(platform_module=platform):
             dist_version = version.split('.')[0]
         else:
             dist_version = version.split('.')[0]
-        arch = 'x86' if '32bit' in platform_module.architecture() else 'x64'
+        processor = platform_module.processor()
+        arch = processor if 'ppc' in processor else \
+               ('x86' if '32bit' in platform_module.architecture() else 'x64')
         return "-".join([system, dist_name, dist_version , arch])
     if system == 'windows':
         arch = 'x86' if '32bit' in platform_module.architecture() else 'x64'
