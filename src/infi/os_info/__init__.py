@@ -8,7 +8,7 @@ def get_platform_string(platform_module=platform):
     system = platform_module.system().lower().replace('-', '').replace('_', '')
     if system == 'linux':
         try:
-            dist_long, version, version_id = platform_module.linux_distribution()
+            dist_long, version, version_id = platform_module.linux_distribution(supported_dists=platform._supported_dists + ('arch',))
         except:
             # python-2.4 on oracle-5 does not have platform.linux_distribution
             dist_long, version, version_id = platform_module.dist()
@@ -18,6 +18,9 @@ def get_platform_string(platform_module=platform):
             dist_version = version_id
         elif dist_name == 'centos' or dist_name == 'redhat':
             dist_version = version.split('.')[0]
+        elif dist_name == 'antergos' or dist_name == 'arch':
+            dist_name = 'arch'
+            dist_version = 'any'
         else:
             dist_version = version.split('.')[0]
         processor = platform_module.processor()
