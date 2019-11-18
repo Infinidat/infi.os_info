@@ -7,11 +7,20 @@ def get_platform_string(platform_module=platform):
     """:param platform_module: a platform-like module that implements system, architecture, processor, release, mac_ver, linux_distribution"""
     system = platform_module.system().lower().replace('-', '').replace('_', '')
     if system == 'linux':
-        try:
-            dist_long, version, version_id = platform_module.linux_distribution(supported_dists=platform._supported_dists + ('arch',))
-        except:
-            # python-2.4 on oracle-5 does not have platform.linux_distribution
-            dist_long, version, version_id = platform_module.dist()
+        if platform_module == platform:
+            try:
+                import distro
+                linux_distribution_func = distro.linux_distribution
+            except ImportError:
+                try:
+                    linux_distribution_func = platform.linux_distribution
+                except AttributeError:
+                    # python-2.4 on oracle-5 does not have platform.linux_distribution
+                    linux_distribution_func = platform.dist()
+                    dist_long, version, version_id = platform_module.dist()
+        else:
+            linux_distribution_func = platform_module.linux_distribution
+        dist_long, version, version_id = linux_distribution_func(supported_dists=platform._supported_dists + ('arch',))
         # We remove the linux string for centos (so it won't be centoslinux)
         dist_name = ''.join(dist_long.split(' ')[:2]).lower().replace('linux','')
         if dist_name == 'ubuntu':
