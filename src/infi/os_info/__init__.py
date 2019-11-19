@@ -21,7 +21,8 @@ def get_platform_string(platform_module=platform):
         else:
             dist_long, version, version_id = platform_module.linux_distribution()
         # We remove the linux string for centos (so it won't be centoslinux)
-        dist_name = ''.join(dist_long.split(' ')[:2]).lower().replace('linux','')
+        # distro return rhel instead of redhat
+        dist_name = ''.join(dist_long.split(' ')[:2]).lower().replace('linux','').replace('rhel', 'redhat')
         if dist_name == 'ubuntu':
             dist_version = version_id
         elif dist_name == 'centos' or dist_name == 'redhat':
