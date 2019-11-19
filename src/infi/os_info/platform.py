@@ -1,5 +1,5 @@
 # Module with same api as built-in platform but different implementation of linux_distribution that uses distro's one.
-
+from __future__ import absolute_import
 from platform import *
 
 

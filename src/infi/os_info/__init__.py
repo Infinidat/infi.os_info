@@ -7,7 +7,7 @@ def get_platform_string(platform_module=platform):
     """:param platform_module: a platform-like module that implements system, architecture, processor, release, mac_ver, linux_distribution"""
     system = platform_module.system().lower().replace('-', '').replace('_', '')
     if system == 'linux':
-        dist_long, version, version_id = platform.linux_distribution()
+        dist_name, version, version_id = platform_module.linux_distribution()
         if dist_name == 'ubuntu':
             dist_version = version_id
         elif dist_name == 'centos' or dist_name == 'redhat':
