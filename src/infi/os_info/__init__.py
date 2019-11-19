@@ -1,28 +1,13 @@
 __import__("pkg_resources").declare_namespace(__name__)
 
-import platform
+from . import platform
 
 
 def get_platform_string(platform_module=platform):
     """:param platform_module: a platform-like module that implements system, architecture, processor, release, mac_ver, linux_distribution"""
     system = platform_module.system().lower().replace('-', '').replace('_', '')
     if system == 'linux':
-        if platform_module == platform:
-            # built-in module is used
-            try:
-                import distro
-                dist_long, version, version_id = distro.linux_distribution(full_distribution_name=False)
-            except ImportError:
-                try:
-                    dist_long, version, version_id = platform.linux_distribution(supported_dists=platform._supported_dists + ('arch',))
-                except AttributeError:
-                    # python-2.4 on oracle-5 does not have platform.linux_distribution
-                    dist_long, version, version_id = platform.dist()
-        else:
-            dist_long, version, version_id = platform_module.linux_distribution()
-        # We remove the linux string for centos (so it won't be centoslinux)
-        # distro return rhel instead of redhat
-        dist_name = ''.join(dist_long.split(' ')[:2]).lower().replace('linux','').replace('rhel', 'redhat')
+        dist_long, version, version_id = platform.linux_distribution()
         if dist_name == 'ubuntu':
             dist_version = version_id
         elif dist_name == 'centos' or dist_name == 'redhat':
