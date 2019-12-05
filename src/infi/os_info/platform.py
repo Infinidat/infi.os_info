@@ -8,4 +8,5 @@ def linux_distribution():
     id_name, version, codename = distro.linux_distribution(full_distribution_name=False)
     # distro returns rhel instead of redhat and sles instead of suse. oracle 5 returns enterpriseenterpriseserver.
     id_name = id_name.replace('rhel', 'redhat').replace('sles', 'suse').replace('enterpriseenterpriseserver', 'oracle')
+    codename = codename.replace('Trusty Tahr', 'trusty')
     return (id_name, version, codename)
