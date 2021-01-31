@@ -1,5 +1,7 @@
 from infi import unittest
-from infi.os_info import get_platform_string
+from mock import patch
+import distro
+from infi.os_info import get_platform_string, platform
 
 
 test_subjects = [
@@ -127,7 +129,15 @@ test_subjects = [
 ]
 
 
-class FakePlatformMorule(object):
+# Those require a change done by the custom platform
+test_special = [
+    dict(expected='linux-suse-11-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='3.0.76-0.11-default', mac_ver=('', ('', '', ''), ''), linux_distribution=('suse_linux', '11', 'x86_64')),
+    dict(expected='linux-suse-11-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='3.0.76-0.11-default', mac_ver=('', ('', '', ''), ''), linux_distribution=('sles', '11', 'x86_64')),
+    dict(expected='linux-redhat-6-x86', system='Linux', architecture=('32bit', 'ELF'), processor='i686', release='2.6.32-100.34.1.el6uek.i686', mac_ver=('', ('', '', ''), ''), linux_distribution=('rhel', '6.1', 'Santiago')),
+    dict(expected='linux-ubuntu-trusty-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='3.13.0-32-generic', mac_ver=('', ('', '', ''), ''), linux_distribution=('ubuntu', '14.04', 'Trusty Tahr')),
+]
+
+class FakePlatformModule(object):
     """:param platform_module: a platform-like module that implements system, architecture, processor, release, mac_ver, linux_distribution"""
 
     def __init__(self, system, architecture, processor, release, mac_ver, linux_distribution):
@@ -142,5 +152,26 @@ class FakePlatformMorule(object):
 class PlatformStringTestCase(unittest.TestCase):
     @unittest.parameters.iterate('test_subject', test_subjects)
     def test_platform_string(self, test_subject):
-        expected = test_subject.pop('expected')
-        self.assertEquals(expected, get_platform_string(FakePlatformMorule(**test_subject)))
+        copy_subject = test_subject.copy()
+        expected = copy_subject.pop('expected')
+        self.assertEquals(expected, get_platform_string(FakePlatformModule(**copy_subject)))
+
+
+class TestGetPlatformString(unittest.TestCase):
+    """A deeper test of all the pipe of get_platform_string"""
+    @unittest.parameters.iterate('test_subject', test_subjects + test_special)
+    def test_get_platform_string(self, test_subject):
+        with patch("distro.linux_distribution") as distro_linux_distribution,\
+                                        patch("infi.os_info.platform.system") as platform_system,\
+                                        patch("infi.os_info.platform.architecture") as platform_architecture,\
+                                        patch("infi.os_info.platform.processor") as platform_processor,\
+                                        patch("infi.os_info.platform.release") as platform_release,\
+                                        patch("infi.os_info.platform.mac_ver") as platform_mac_ver:
+            distro_linux_distribution.return_value = test_subject['linux_distribution']
+            platform_system.return_value = test_subject['system']
+            platform_architecture.return_value = test_subject['architecture']
+            platform_release.return_value = test_subject['processor']
+            platform_release.return_value = test_subject['release']
+            platform_mac_ver.return_value = test_subject['mac_ver']
+            expected = test_subject['expected']
+            self.assertEquals(expected, get_platform_string())
