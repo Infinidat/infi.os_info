@@ -27,7 +27,12 @@ def get_platform_string(platform_module=platform):
     if system == 'darwin':
         dist_version, _, arch = platform_module.mac_ver()
         dist_version = '.'.join(dist_version.split('.')[:2])
-        arch = 'x64' if arch == 'x86_64' else 'x86'
+        if arch == 'x86_64':
+            arch = 'x64'
+        elif arch == 'arm64':
+            pass  # Stay arm64
+        else:
+            arch = 'x86'
         return "-".join(["osx", dist_version, arch])
     if system == 'sunos':
         arch = 'sparc' if platform_module.processor() == 'sparc' else \
