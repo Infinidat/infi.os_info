@@ -9,7 +9,7 @@ def get_platform_string(platform_module=platform):
     if system == 'linux':
         dist_name, version, version_id = platform_module.linux_distribution()
         if dist_name == 'ubuntu':
-            dist_version = version_id.replace('Trusty Tahr', 'trusty')
+            dist_version = version_id.replace('Trusty Tahr', 'trusty').replace('Bionic Beaver', 'bionic')
         elif dist_name == 'centos' or dist_name == 'redhat':
             dist_version = version.split('.')[0]
         elif dist_name == 'antergos' or dist_name == 'arch':

@@ -135,6 +135,7 @@ test_special = [
     dict(expected='linux-suse-11-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='3.0.76-0.11-default', mac_ver=('', ('', '', ''), ''), linux_distribution=('sles', '11', 'x86_64')),
     dict(expected='linux-redhat-6-x86', system='Linux', architecture=('32bit', 'ELF'), processor='i686', release='2.6.32-100.34.1.el6uek.i686', mac_ver=('', ('', '', ''), ''), linux_distribution=('rhel', '6.1', 'Santiago')),
     dict(expected='linux-ubuntu-trusty-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='3.13.0-32-generic', mac_ver=('', ('', '', ''), ''), linux_distribution=('ubuntu', '14.04', 'Trusty Tahr')),
+    dict(expected='linux-ubuntu-bionic-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='3.13.0-32-generic', mac_ver=('', ('', '', ''), ''), linux_distribution=('ubuntu', '18.04', 'Bionic Beaver')),
 ]
 
 class FakePlatformModule(object):
