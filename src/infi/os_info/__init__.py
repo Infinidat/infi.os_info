@@ -50,7 +50,7 @@ def get_platform_string(platform_module=platform):
 
 
 def get_version_from_git():
-    from gitpy.exceptions import GitCommandFailedException
+    from infi.gitpy.exceptions import GitCommandFailedException
 
     def get_commit_describe(commit, match_pattern='v*'):
         try:
@@ -65,7 +65,7 @@ def get_version_from_git():
         return returned
 
     def extract_version_tag_from_git():
-        from gitpy import LocalRepository
+        from infi.gitpy import LocalRepository
         from os import curdir, path
         repository = LocalRepository(curdir)
         branch = repository.getCurrentBranch()
