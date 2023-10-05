@@ -5,8 +5,7 @@ from platform import *
 
 def linux_distribution():
     import distro
-    id_name, version, codename = distro.linux_distribution(full_distribution_name=False)
+    id_name, version, codename = distro.id(), distro.version(), distro.codename()
     # distro returns rhel instead of redhat and sles/suse_linux instead of suse. oracle 5 returns enterpriseenterpriseserver.
     id_name = id_name.replace('rhel', 'redhat').replace('sles', 'suse').replace('suse_sap', 'suse').replace('suse_linux', 'suse').replace('enterpriseenterpriseserver', 'oracle')
-    codename = codename.replace('Trusty Tahr', 'trusty').replace('Bionic Beaver', 'bionic')
     return (id_name, version, codename)
