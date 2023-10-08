@@ -162,13 +162,17 @@ class TestGetPlatformString(unittest.TestCase):
     """A deeper test of all the pipe of get_platform_string"""
     @unittest.parameters.iterate('test_subject', test_subjects + test_special)
     def test_get_platform_string(self, test_subject):
-        with patch("distro.linux_distribution") as distro_linux_distribution,\
+        with patch("distro.id") as distro_id,\
+             patch("distro.version") as distro_version, \
+             patch("distro.codename") as distro_codename, \
                                         patch("infi.os_info.platform.system") as platform_system,\
                                         patch("infi.os_info.platform.architecture") as platform_architecture,\
                                         patch("infi.os_info.platform.processor") as platform_processor,\
                                         patch("infi.os_info.platform.release") as platform_release,\
                                         patch("infi.os_info.platform.mac_ver") as platform_mac_ver:
-            distro_linux_distribution.return_value = test_subject['linux_distribution']
+            distro_id.return_value = test_subject['linux_distribution'][0]
+            distro_version.return_value = test_subject['linux_distribution'][1]
+            distro_codename.return_value = test_subject['linux_distribution'][2]
             platform_system.return_value = test_subject['system']
             platform_architecture.return_value = test_subject['architecture']
             platform_release.return_value = test_subject['processor']
