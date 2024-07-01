@@ -3,9 +3,29 @@ __import__("pkg_resources").declare_namespace(__name__)
 from . import platform
 
 
+def get_system_name(platform_module=platform):
+    """Returns the system name."""
+    return platform_module.system().lower().replace('-', '').replace('_', '')
+
+
+def distro_is_rhel_based(platform_module=platform):
+    """Checks if the distro is a RHEL-based distribution.
+
+    :param platform_module: a platform-like module
+        that implements system, architecture, processor,
+        release, mac_ver, linux_distribution
+    """
+    system = get_system_name(platform_module=platform_module)
+    if system == 'linux':
+        name, _, _ = platform_module.linux_distribution()
+        if name in ('redhat', 'centos', 'oracle', 'rocky', 'almalinux', 'eurolinux'):
+            return True
+    return False
+
+
 def get_platform_string(platform_module=platform):
     """:param platform_module: a platform-like module that implements system, architecture, processor, release, mac_ver, linux_distribution"""
-    system = platform_module.system().lower().replace('-', '').replace('_', '')
+    system = get_system_name(platform_module=platform_module)
     if system == 'linux':
         dist_name, version, version_id = platform_module.linux_distribution()
         if dist_name == 'ubuntu':
