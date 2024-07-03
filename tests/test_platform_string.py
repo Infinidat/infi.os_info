@@ -6,7 +6,6 @@ from infi.os_info import get_platform_string, platform
 
 test_subjects = [
     dict(expected='linux-ubuntu-quantal-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='3.5.0-40-generic', mac_ver=('', ('', '', ''), ''), linux_distribution=('ubuntu', '12.10', 'quantal')),
-    dict(expected='linux-ubuntu-quantal-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='3.5.0-40-generic', mac_ver=('', ('', '', ''), ''), linux_distribution=('ubuntu', '12.10', 'quantal')),
     dict(expected='linux-ubuntu-saucy-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='3.11.0-26-generic', mac_ver=('', ('', '', ''), ''), linux_distribution=('ubuntu', '13.10', 'saucy')),
     dict(expected='linux-ubuntu-saucy-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='3.11.0-26-generic', mac_ver=('', ('', '', ''), ''), linux_distribution=('ubuntu', '13.10', 'saucy')),
     dict(expected='linux-centos-6-x64', system='Linux', architecture=('64bit', 'ELF'), processor='x86_64', release='2.6.32-358.el6.x86_64', mac_ver=('', ('', '', ''), ''), linux_distribution=('centos', '6.4', 'Final')),
